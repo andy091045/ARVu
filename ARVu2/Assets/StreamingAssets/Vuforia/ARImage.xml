@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+  <Tracking>
+    <ImageTarget name="Double" size="5.000000 3.137255" />
+    <ImageTarget name="Dark_Silhouette" size="5.000000 4.321429" />
+  </Tracking>
+</QCARConfig>
