@@ -497,8 +497,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 545955368}
-        m_TargetAssemblyTypeName: ChooseModel, Assembly-CSharp
-        m_MethodName: OnChooseModel
+        m_TargetAssemblyTypeName: PressButton, Assembly-CSharp
+        m_MethodName: ChangeScene
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
