@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class GameEvent : MonoBehaviour
 {
-    public delegate void OccurTrackImageTarget(int i, bool open);
+    public delegate void OccurTrackImageTarget(int i, bool IsOpen);
     public static OccurTrackImageTarget OccurTrackImageTargetChange;
+
+    public delegate void OccurIntroVoiceStartOrClose(int i, bool IsOpen);
+    public static OccurIntroVoiceStartOrClose OnIntroVoiceStartOrClose;
 
     public void TransferGetTargetEventMessage(int i)
     {
@@ -17,5 +20,6 @@ public class GameEvent : MonoBehaviour
     {
         Debug.Log("¹Ï¤ùID:" + i + "¿ò¥¢");
         OccurTrackImageTargetChange.Invoke(i, false);
+        OnIntroVoiceStartOrClose.Invoke(i, false);
     }
 }

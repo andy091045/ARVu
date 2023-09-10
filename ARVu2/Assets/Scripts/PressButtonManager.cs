@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PressButton : MonoBehaviour
+public class PressButtonManager : MonoBehaviour
 {
     public void ChangeScene(int i)
     {
@@ -18,5 +18,10 @@ public class PressButton : MonoBehaviour
     public void CloseSetActiveTrueObject(GameObject obj)
     {
         obj.SetActive(false);
+    }
+
+    public void ClickIntroVoiceButton(int i)
+    {
+        GameEvent.OnIntroVoiceStartOrClose.Invoke(i, true);
     }
 }
