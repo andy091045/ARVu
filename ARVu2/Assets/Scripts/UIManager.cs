@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public GameObject MissionList;
+
     private void Awake()
     {
         GameEvent.OccurTrackImageTargetChange += OpenOrCloseObj;
+        GameEvent.OnMissionComplete += ChangeMissionText;
     }
 
     public void OpenOrCloseObj(int i, bool open)
@@ -34,8 +38,17 @@ public class UIManager : MonoBehaviour
         } 
     }
 
+    void ChangeMissionText(int i)
+    {
+        var obj = MissionList.transform.GetChild(i - 1).transform.gameObject;
+        var text = obj.transform.GetChild(0).transform.gameObject.GetComponent<Text>();
+        text.text = "任務" + i + "完成";
+        Debug.Log(text);
+    }
+
     private void OnDestroy()
     {
         GameEvent.OccurTrackImageTargetChange -= OpenOrCloseObj;
+        GameEvent.OnMissionComplete -= ChangeMissionText;
     }
 }
