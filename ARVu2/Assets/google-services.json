@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1071718336491",
+    "project_id": "gfirebase-cd81e",
+    "storage_bucket": "gfirebase-cd81e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071718336491:android:0ea11ed5537a571ece7bae",
+        "android_client_info": {
+          "package_name": "com.rgame.Firebase5G"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE9gB72pFoRBzKBfFt5Q9vB-vUQGv1w9o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
