@@ -4,6 +4,7 @@ using Firebase.Extensions;
 using Firebase.Storage;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 [Serializable]
 public class FileList
@@ -80,12 +81,42 @@ public class LoadExhibitDataManager : MonoBehaviour
 
             if(dataList_ != null)
             {
-                //從中隨機選取五個展品
-                for (int i = 0; i < dataList_.files.Length; i++)
+                //從中隨機選取五個展品名稱
+                if(dataList_.files.Length >= missionCount_)
                 {
-                    Debug.Log(dataList_.files[i]);
+                    List<int> randomNumbers = RandomNumberGenerator.GenerateRandomNumbers(missionCount_, 0, dataList_.files.Length-1);
+                    for (int i = 0; i < randomNumbers.Count; i++)
+                    {                        
+                        Debug.Log(dataList_.files[randomNumbers[i]]);
+                    }
                 }
             }
         }
+    }
+}
+
+public class RandomNumberGenerator
+{
+    public static List<int> GenerateRandomNumbers(int count, int minValue, int maxValue)
+    {
+        if (count > (maxValue - minValue + 1) || minValue > maxValue)
+        {
+            throw new ArgumentException("Invalid arguments");
+        }
+
+        List<int> numbers = new List<int>();
+        System.Random random = new System.Random();
+
+        while (numbers.Count < count)
+        {
+            int randomNumber = random.Next(minValue, maxValue + 1);
+
+            if (!numbers.Contains(randomNumber))
+            {
+                numbers.Add(randomNumber);
+            }
+        }
+
+        return numbers;
     }
 }
