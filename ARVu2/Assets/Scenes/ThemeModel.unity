@@ -913,7 +913,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &476619618
 Transform:
   m_ObjectHideFlags: 0
@@ -1944,12 +1944,12 @@ GameObject:
   - component: {fileID: 885905214}
   - component: {fileID: 885905215}
   m_Layer: 0
-  m_Name: SelectFivePath
+  m_Name: LoadExhibitDataManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &885905214
 Transform:
   m_ObjectHideFlags: 0
@@ -1974,7 +1974,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 885905213}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb14a9335129966429a2069026e06868, type: 3}
+  m_Script: {fileID: 11500000, guid: 494f69f649be6814ea78b9adab335c68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &886110769
