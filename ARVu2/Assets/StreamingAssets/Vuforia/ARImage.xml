@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig>
   <Tracking>
+    <ImageTarget name="UntitledCharlieTomLAJune1986" size="5.000000 4.285714" />
+    <ImageTarget name="SX-70Model" size="5.000000 5.000000" />
+    <ImageTarget name="SomewhereinNY_TwinDogsDineonIceCreamandFruit" size="5.000000 6.926070" />
+    <ImageTarget name="SantaFeAlbum_August1973-SX-70filmtest" size="5.000000 3.584559" />
+    <ImageTarget name="Model80A_Highlander_CameraKit" size="5.000000 3.329065" />
     <ImageTarget name="Double" size="5.000000 3.137255" />
     <ImageTarget name="Dark_Silhouette" size="5.000000 4.321429" />
   </Tracking>
