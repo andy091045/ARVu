@@ -15,12 +15,18 @@ public class FileList
 public class LoadExhibitDataManager : MonoBehaviour
 {
     FileList dataList_;
+    DataManager data_;
 
     //選取的任務數
     int missionCount_ = 5;
 
     // Firebase Storage 參考
     private Firebase.Storage.StorageReference fileRef_;
+
+    private void Awake()
+    {
+        data_ = GameContainer.Get<DataManager>();
+    }
 
     private void Start()
     {
@@ -56,10 +62,25 @@ public class LoadExhibitDataManager : MonoBehaviour
 
     public void ChangeAndDownloadExhibitData(string newFilePath)
     {
+        ExhibitData newData = new();
+        Debug.Log("路徑" +  newFilePath);
         // 更新 Firebase Storage 引用
-        fileRef_ = FirebaseStorage.DefaultInstance.RootReference.Child(newFilePath);
+        //fileRef_ = FirebaseStorage.DefaultInstance.RootReference.Child(newFilePath);
 
-        // 下载展品資料    
+        // 下载展品導覽語音
+        //fileRef_ = FirebaseStorage.DefaultInstance.RootReference.Child(newFilePath + ".wav");
+        //fileRef_.GetDownloadUrlAsync().ContinueWithOnMainThread(task => {
+        //    if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
+        //    {
+        //        string fileUrl = task.Result.ToString();
+        //        StartCoroutine(DownloadAudioClip(fileUrl, newData));
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("Failed to get download URL for audio file.");
+        //    }
+        //});
+
     }
 
     IEnumerator ParseJSON(string jsonUrl)
@@ -86,10 +107,37 @@ public class LoadExhibitDataManager : MonoBehaviour
                 {
                     List<int> randomNumbers = RandomNumberGenerator.GenerateRandomNumbers(missionCount_, 0, dataList_.files.Length-1);
                     for (int i = 0; i < randomNumbers.Count; i++)
-                    {                        
-                        Debug.Log(dataList_.files[randomNumbers[i]]);
+                    {                                                
+                        data_.MissionExhibit.Add(dataList_.files[randomNumbers[i]]);
+                        Debug.Log(data_.MissionExhibit[i] + "哈哈");
+                        //ChangeAndDownloadExhibitData("ExhibitData/" + dataList_.files[randomNumbers[i]] + "/" + dataList_.files[randomNumbers[i]]);
                     }
                 }
+            }
+        }
+    }
+
+    IEnumerator DownloadAudioClip(string audioUrl, ExhibitData newData)
+    {
+        using (UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequestMultimedia.GetAudioClip(audioUrl, AudioType.WAV))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("Failed to download audio file: " + www.error);
+                yield break;
+            }
+
+            AudioClip audioClip = UnityEngine.Networking.DownloadHandlerAudioClip.GetContent(www);
+
+            if (audioClip != null)
+            {
+               newData.IntroVoice = audioClip;
+            }
+            else
+            {
+                Debug.LogError("Failed to create AudioClip from downloaded audio data.");
             }
         }
     }
