@@ -5,6 +5,7 @@ using Firebase.Storage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 [Serializable]
 public class FileList
@@ -27,6 +28,7 @@ public class LoadExhibitDataManager : MonoBehaviour
     private void Awake()
     {
         data_ = GameContainer.Get<DataManager>();
+        GameEvent.OnDownloadExhibitByName += DownloadOneDataByName;
     }
 
     private void Start()
@@ -61,7 +63,7 @@ public class LoadExhibitDataManager : MonoBehaviour
         });
     }
 
-    public void ChangeAndDownloadExhibitData(string newFileName, int number)
+    public void ChangeAndDownloadExhibitHint(string newFileName, int number)
     {
         ExhibitData newData = new();
         newData.ExhibitName = newFileName;
@@ -73,7 +75,7 @@ public class LoadExhibitDataManager : MonoBehaviour
             if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
             {
                 string fileUrl = task.Result.ToString();
-                StartCoroutine(DownloadAndParseTextFile(fileUrl, number));
+                StartCoroutine(DownloadAndParseHintTextFile(fileUrl, number));
             }
             else
             {
@@ -81,6 +83,68 @@ public class LoadExhibitDataManager : MonoBehaviour
             }
         });
 
+    }
+
+    public void DownloadOneDataByName(string name)
+    {
+        ExhibitData temp = new();
+        //搜尋展品
+        foreach (var item in data_.AllExhibitData)
+        {
+            if (item.ExhibitName == name)
+            {
+                temp = item;
+                break;
+            }
+        }
+
+        temp.IsTreasureFound = false;
+
+        // 下载展品導覽語音
+        fileRef_ = FirebaseStorage.DefaultInstance.RootReference.Child("ExhibitData/" + name + "/" + name + ".wav");
+        fileRef_.GetDownloadUrlAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
+            {
+                string fileUrl = task.Result.ToString();
+                StartCoroutine(DownloadAudioClip(fileUrl, temp));
+            }
+            else
+            {
+                Debug.LogError("Failed to get download URL for audio file.");
+            }
+        });
+
+        // 下载展品導覽中文文字說明
+        fileRef_ = FirebaseStorage.DefaultInstance.RootReference.Child("ExhibitData/" + name + "/" + name + "_CH.txt");
+        fileRef_.GetDownloadUrlAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
+            {
+                string fileUrl = task.Result.ToString();
+                StartCoroutine(DownloadAndParseIntroTextFile(fileUrl, temp.IntroTextCH));
+            }
+            else
+            {
+                Debug.LogError("Failed to get download URL for audio file.");
+            }
+        });
+
+        // 下载展品導覽英文文字說明
+        fileRef_ = FirebaseStorage.DefaultInstance.RootReference.Child("ExhibitData/" + name + "/" + name + "_EN.txt");
+        fileRef_.GetDownloadUrlAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
+            {
+                string fileUrl = task.Result.ToString();
+                StartCoroutine(DownloadAndParseIntroTextFile(fileUrl, temp.IntroTextEN));
+            }
+            else
+            {
+                Debug.LogError("Failed to get download URL for audio file.");
+            }
+        });
+        temp.IsDownload = true;
     }
 
     IEnumerator ParseJSON(string jsonUrl)
@@ -104,6 +168,7 @@ public class LoadExhibitDataManager : MonoBehaviour
             {
                 ExhibitData item = new();
                 item.ExhibitName = dataList_.files[i];
+                item.IsDownload = false;
                 data_.AllExhibitData.Add(item);
             }
             GameEvent.OnGetAllExhibitName.Invoke();
@@ -119,7 +184,7 @@ public class LoadExhibitDataManager : MonoBehaviour
                         //data_.MissionExhibit.Add(dataList_.files[randomNumbers[i]]);
                         //Debug.Log(data_.MissionExhibit[i] + "哈哈");
                         //ChangeAndDownloadExhibitData("ExhibitData/" + dataList_.files[randomNumbers[i]] + "/" + dataList_.files[randomNumbers[i]]);
-                        ChangeAndDownloadExhibitData(dataList_.files[randomNumbers[i]], i);
+                        ChangeAndDownloadExhibitHint(dataList_.files[randomNumbers[i]], i);
                     }
                 }
             }
@@ -143,6 +208,7 @@ public class LoadExhibitDataManager : MonoBehaviour
             if (audioClip != null)
             {
                newData.IntroVoice = audioClip;
+                Debug.LogWarning(newData.ExhibitName + "語音下載成功");
             }
             else
             {
@@ -151,7 +217,7 @@ public class LoadExhibitDataManager : MonoBehaviour
         }
     }
 
-    IEnumerator DownloadAndParseTextFile(string textUrl, int number)
+    IEnumerator DownloadAndParseHintTextFile(string textUrl, int number)
     {
         using (UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get(textUrl))
         {
@@ -171,6 +237,30 @@ public class LoadExhibitDataManager : MonoBehaviour
                 Debug.LogError("Failed to download text file: " + www.error);
             }
         }
+    }
+
+    IEnumerator DownloadAndParseIntroTextFile(string textUrl, string content)
+    {
+        using (UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get(textUrl))
+        {
+            yield return www.SendWebRequest();
+
+            if (!www.isNetworkError && !www.isHttpError)
+            {
+                string textContent = www.downloadHandler.text;          
+                content = textContent;
+                Debug.LogWarning("導覽內容: " + content);
+            }
+            else
+            {
+                Debug.LogError("Failed to download text file: " + www.error);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        GameEvent.OnDownloadExhibitByName -= DownloadOneDataByName;
     }
 }
 

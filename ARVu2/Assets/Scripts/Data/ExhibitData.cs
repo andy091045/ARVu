@@ -7,4 +7,6 @@ public class ExhibitData
     public string IntroTextCH;
     public string IntroTextEN;
     public string TreatureHint;
+    public bool IsDownload;
+    public bool IsTreasureFound;
 }

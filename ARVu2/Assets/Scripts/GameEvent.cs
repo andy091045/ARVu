@@ -17,6 +17,10 @@ public class GameEvent : MonoBehaviour
     public delegate void OccurGetAllExhibitName();
     public static OccurGetAllExhibitName OnGetAllExhibitName;
 
+    //下載一筆資料並更新
+    public delegate void OccurDownloadExhibitByName(string name);
+    public static OccurDownloadExhibitByName OnDownloadExhibitByName;
+
     public void TransferGetTargetEventMessage(string name)
     {
         Debug.Log("圖片:" + name + "開啟");
