@@ -14,6 +14,7 @@ public class FileList
 
 public class LoadExhibitDataManager : MonoBehaviour
 {
+    //所有展品的資料名稱
     FileList dataList_;
     DataManager data_;
 
@@ -72,7 +73,6 @@ public class LoadExhibitDataManager : MonoBehaviour
             if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
             {
                 string fileUrl = task.Result.ToString();
-                Debug.LogWarning(number);
                 StartCoroutine(DownloadAndParseTextFile(fileUrl, number));
             }
             else
@@ -100,7 +100,15 @@ public class LoadExhibitDataManager : MonoBehaviour
             // 解析 JSON 文本为 FileList 对象
             dataList_ = JsonUtility.FromJson<FileList>(jsonText);
 
-            if(dataList_ != null)
+            for (int i = 0; i < dataList_.files.Length; i++)
+            {
+                ExhibitData item = new();
+                item.ExhibitName = dataList_.files[i];
+                data_.AllExhibitData.Add(item);
+            }
+            GameEvent.OnGetAllExhibitName.Invoke();
+
+            if (dataList_ != null)
             {
                 //從中隨機選取五個展品名稱
                 if(dataList_.files.Length >= missionCount_)

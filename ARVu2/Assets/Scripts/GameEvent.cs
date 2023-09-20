@@ -13,6 +13,10 @@ public class GameEvent : MonoBehaviour
     public delegate void OccurMissionComplete(int i);
     public static OccurMissionComplete OnMissionComplete;
 
+    //當讀取到所有的展品名稱後，生成ImageTarget
+    public delegate void OccurGetAllExhibitName();
+    public static OccurGetAllExhibitName OnGetAllExhibitName;
+
     public void TransferGetTargetEventMessage(int i)
     {
         Debug.Log("圖片ID:" + i + "開啟");
