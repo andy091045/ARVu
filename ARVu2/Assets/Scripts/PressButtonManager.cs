@@ -29,9 +29,9 @@ public class PressButtonManager : MonoBehaviour
         obj.SetActive(false);
     }
 
-    public void ClickIntroVoiceButton(int i)
+    public void ClickIntroVoiceButton(string name)
     {
-        GameEvent.OnIntroVoiceStartOrClose.Invoke(i, true);
+        GameEvent.OnIntroVoiceStartOrClose.Invoke(name, true);
     }
 
     public void OpenMissionHintObject(int i)

@@ -22,8 +22,8 @@ public class ImageTargetController : MonoBehaviour
         observerHandler.StatusFilter = DefaultObserverEventHandler.TrackingStatusFilter.Tracked;
         observerHandler.OnTargetFound = new UnityEvent();
         observerHandler.OnTargetLost = new UnityEvent();
-        observerHandler.OnTargetFound.AddListener(() => TransferGetTargetEventMessage(1));
-        observerHandler.OnTargetLost.AddListener(() => TransferLoseTargetEventMessage(1));
+        observerHandler.OnTargetFound.AddListener(() => TransferGetTargetEventMessage("SX-70Model"));
+        observerHandler.OnTargetLost.AddListener(() => TransferLoseTargetEventMessage("SX-70Model"));
         itBehaviour.transform.parent = this.transform;
 
         //foreach (var target in dataManager_.AllExhibitData)
@@ -44,16 +44,14 @@ public class ImageTargetController : MonoBehaviour
         GameEvent.OnGetAllExhibitName -= spawnAllImageTarget;
     }
 
-    public void TransferGetTargetEventMessage(int i)
+    public void TransferGetTargetEventMessage(string name)
     {
-        Debug.Log("圖片ID:" + i + "開啟!!!!!!!!!!!!");
-        GameEvent.OccurTrackImageTargetChange.Invoke(i, true);
+        GameEvent.OccurTrackImageTargetChange.Invoke(name, true);
     }
 
-    public void TransferLoseTargetEventMessage(int i)
+    public void TransferLoseTargetEventMessage(string name)
     {
-        Debug.Log("圖片ID:" + i + "遺失!!!!!!!!");
-        GameEvent.OccurTrackImageTargetChange.Invoke(i, false);
-        GameEvent.OnIntroVoiceStartOrClose.Invoke(i, false);
+        GameEvent.OccurTrackImageTargetChange.Invoke(name, false);
+        GameEvent.OnIntroVoiceStartOrClose.Invoke(name, false);
     }
 }

@@ -13,9 +13,9 @@ public class UIManager : MonoBehaviour
         GameEvent.OnMissionComplete += ChangeMissionText;
     }
 
-    public void OpenOrCloseObj(int i, bool open)
+    public void OpenOrCloseObj(string name, bool open)
     {
-        var obj = GameObject.Find("ExhibitsIntro_" + i.ToString());
+        var obj = GameObject.Find("ExhibitsIntro");
         if(obj != null)
         {
             Debug.Log("ß‰®ÏπÔ¿≥§∂≤–UI");

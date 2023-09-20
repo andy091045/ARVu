@@ -13,7 +13,7 @@ public class IntroVoiceManager : MonoBehaviour
         GameEvent.OnIntroVoiceStartOrClose += SetSE;
     }
 
-    async void SetSE(int i, bool isOpen)
+    async void SetSE(string name, bool isOpen)
     {
         if(isOpen)
         {

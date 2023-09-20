@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class GameEvent : MonoBehaviour
 {
-    public delegate void OccurTrackImageTarget(int i, bool IsOpen);
+    public delegate void OccurTrackImageTarget(string name, bool IsOpen);
     public static OccurTrackImageTarget OccurTrackImageTargetChange;
 
-    public delegate void OccurIntroVoiceStartOrClose(int i, bool IsOpen);
+    public delegate void OccurIntroVoiceStartOrClose(string name, bool IsOpen);
     public static OccurIntroVoiceStartOrClose OnIntroVoiceStartOrClose;
 
     public delegate void OccurMissionComplete(int i);
@@ -17,17 +17,17 @@ public class GameEvent : MonoBehaviour
     public delegate void OccurGetAllExhibitName();
     public static OccurGetAllExhibitName OnGetAllExhibitName;
 
-    public void TransferGetTargetEventMessage(int i)
+    public void TransferGetTargetEventMessage(string name)
     {
-        Debug.Log("圖片ID:" + i + "開啟");
-        OccurTrackImageTargetChange.Invoke(i, true);
+        Debug.Log("圖片:" + name + "開啟");
+        OccurTrackImageTargetChange.Invoke(name, true);
     }
 
-    public void TransferLoseTargetEventMessage(int i)
+    public void TransferLoseTargetEventMessage(string name)
     {
-        Debug.Log("圖片ID:" + i + "遺失");
-        OccurTrackImageTargetChange.Invoke(i, false);
-        OnIntroVoiceStartOrClose.Invoke(i, false);
+        Debug.Log("圖片:" + name + "遺失");
+        OccurTrackImageTargetChange.Invoke(name, false);
+        OnIntroVoiceStartOrClose.Invoke(name, false);
     }
 
     public void MissionComplete(int i)

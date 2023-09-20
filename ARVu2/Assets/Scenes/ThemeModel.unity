@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 222227816}
   - component: {fileID: 222227818}
   m_Layer: 5
-  m_Name: ExhibitsIntro_1
+  m_Name: ExhibitsIntro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1321,13 +1321,13 @@ MonoBehaviour:
       - m_Target: {fileID: 2117567125}
         m_TargetAssemblyTypeName: PressButtonManager, Assembly-CSharp
         m_MethodName: ClickIntroVoiceButton
-        m_Mode: 3
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &663635254
