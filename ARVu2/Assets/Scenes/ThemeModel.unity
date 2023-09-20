@@ -1532,12 +1532,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2117567125}
         m_TargetAssemblyTypeName: PressButtonManager, Assembly-CSharp
-        m_MethodName: OpenSetActiveFalseObject
-        m_Mode: 2
+        m_MethodName: OpenMissionHintObject
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 990751943}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2406,12 +2406,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2117567125}
         m_TargetAssemblyTypeName: PressButtonManager, Assembly-CSharp
-        m_MethodName: OpenSetActiveFalseObject
-        m_Mode: 2
+        m_MethodName: OpenMissionHintObject
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 990751943}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3328,12 +3328,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2117567125}
         m_TargetAssemblyTypeName: PressButtonManager, Assembly-CSharp
-        m_MethodName: OpenSetActiveFalseObject
-        m_Mode: 2
+        m_MethodName: OpenMissionHintObject
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 990751943}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3731,11 +3731,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2117567125}
         m_TargetAssemblyTypeName: PressButtonManager, Assembly-CSharp
-        m_MethodName: OpenSetActiveFalseObject
-        m_Mode: 2
+        m_MethodName: OpenMissionHintObject
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 990751943}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4164,12 +4164,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2117567125}
         m_TargetAssemblyTypeName: PressButtonManager, Assembly-CSharp
-        m_MethodName: OpenSetActiveFalseObject
-        m_Mode: 2
+        m_MethodName: OpenMissionHintObject
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 990751943}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4256,6 +4256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10e49993f0a81ae46971b1cacefec8a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MissionHintObject: {fileID: 990751943}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

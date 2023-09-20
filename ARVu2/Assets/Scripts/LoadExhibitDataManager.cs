@@ -60,26 +60,26 @@ public class LoadExhibitDataManager : MonoBehaviour
         });
     }
 
-    public void ChangeAndDownloadExhibitData(string newFilePath)
+    public void ChangeAndDownloadExhibitData(string newFileName, int number)
     {
         ExhibitData newData = new();
-        Debug.Log("路徑" +  newFilePath);
-        // 更新 Firebase Storage 引用
-        //fileRef_ = FirebaseStorage.DefaultInstance.RootReference.Child(newFilePath);
-
+        newData.ExhibitName = newFileName;
+        data_.MissionExhibit.Add(newData);
         // 下载展品導覽語音
-        //fileRef_ = FirebaseStorage.DefaultInstance.RootReference.Child(newFilePath + ".wav");
-        //fileRef_.GetDownloadUrlAsync().ContinueWithOnMainThread(task => {
-        //    if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
-        //    {
-        //        string fileUrl = task.Result.ToString();
-        //        StartCoroutine(DownloadAudioClip(fileUrl, newData));
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("Failed to get download URL for audio file.");
-        //    }
-        //});
+        fileRef_ = FirebaseStorage.DefaultInstance.RootReference.Child("ExhibitData/" + newFileName + "/" + newFileName + "_Hint.txt");
+        fileRef_.GetDownloadUrlAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
+            {
+                string fileUrl = task.Result.ToString();
+                Debug.LogWarning(number);
+                StartCoroutine(DownloadAndParseTextFile(fileUrl, number));
+            }
+            else
+            {
+                Debug.LogError("Failed to get download URL for audio file.");
+            }
+        });
 
     }
 
@@ -108,9 +108,10 @@ public class LoadExhibitDataManager : MonoBehaviour
                     List<int> randomNumbers = RandomNumberGenerator.GenerateRandomNumbers(missionCount_, 0, dataList_.files.Length-1);
                     for (int i = 0; i < randomNumbers.Count; i++)
                     {                                                
-                        data_.MissionExhibit.Add(dataList_.files[randomNumbers[i]]);
-                        Debug.Log(data_.MissionExhibit[i] + "哈哈");
+                        //data_.MissionExhibit.Add(dataList_.files[randomNumbers[i]]);
+                        //Debug.Log(data_.MissionExhibit[i] + "哈哈");
                         //ChangeAndDownloadExhibitData("ExhibitData/" + dataList_.files[randomNumbers[i]] + "/" + dataList_.files[randomNumbers[i]]);
+                        ChangeAndDownloadExhibitData(dataList_.files[randomNumbers[i]], i);
                     }
                 }
             }
@@ -138,6 +139,28 @@ public class LoadExhibitDataManager : MonoBehaviour
             else
             {
                 Debug.LogError("Failed to create AudioClip from downloaded audio data.");
+            }
+        }
+    }
+
+    IEnumerator DownloadAndParseTextFile(string textUrl, int number)
+    {
+        using (UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get(textUrl))
+        {
+            yield return www.SendWebRequest();
+
+            if (!www.isNetworkError && !www.isHttpError)
+            {
+                string textContent = www.downloadHandler.text;
+
+                // 处理文本内容                
+                data_.MissionExhibit[number].TreatureHint = textContent;
+                // 在这里可以将文本内容传递给其他函数或进行其他处理
+                // 例如：ProcessTextContent(textContent);
+            }
+            else
+            {
+                Debug.LogError("Failed to download text file: " + www.error);
             }
         }
     }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class DataManager
 {
-    public List<string> MissionExhibit = new();
+    public List<ExhibitData> MissionExhibit = new();
 }
