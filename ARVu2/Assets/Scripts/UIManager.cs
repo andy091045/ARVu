@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public GameObject MissionList;
+    GameObject exhibitsIntro_;
 
     DataManager dataManager_;
 
@@ -18,15 +19,15 @@ public class UIManager : MonoBehaviour
 
     public void OpenOrCloseObj(string name, bool open)
     {
-        var obj = GameObject.Find("ExhibitsIntro");
-        if(obj != null)
+        exhibitsIntro_ = GameObject.Find("ExhibitsIntro");
+        if(exhibitsIntro_ != null)
         {
             ExhibitData temp = new();
             Debug.Log("找到對應介紹UI");
             if (open)
             {
-                obj.gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                foreach (Transform item in obj.gameObject.transform.GetChild(0).gameObject.transform)
+                exhibitsIntro_.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                foreach (Transform item in exhibitsIntro_.gameObject.transform.GetChild(0).gameObject.transform)
                 {
                     item.gameObject.SetActive(true);
                 }
@@ -44,18 +45,16 @@ public class UIManager : MonoBehaviour
                         {
                             //傳遞下載資料事件
                             GameEvent.OnDownloadExhibitByName.Invoke(name);
-                            temp = item;
                         }
                         break;
                     }
                 }
 
-                //更新UI
-                StartCoroutine(WaitForDownloadAndUpdateUI(temp));
+                StartCoroutine(WaitForDownloadAndUpdateUI(name, 3));               
             }
             else
             {
-                obj.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                exhibitsIntro_.gameObject.transform.GetChild(0).gameObject.SetActive(false);
             }
         }
         else
@@ -78,14 +77,22 @@ public class UIManager : MonoBehaviour
         GameEvent.OnMissionComplete -= ChangeMissionText;
     }
 
-    private IEnumerator WaitForDownloadAndUpdateUI(ExhibitData temp)
+    private IEnumerator WaitForDownloadAndUpdateUI(string name, float second)
     {
-        while (!temp.IsDownload)
-        {
-            yield return null; // 不阻塞主线程
-        }
+        yield return new WaitForSeconds(second);
 
         // 在数据下载完成后执行其他操作
-        Debug.Log("数据已下载完毕，可以执行其他操作");
+        ExhibitData temp = new();
+        foreach (var item in dataManager_.AllExhibitData)
+        {
+            if (item.ExhibitName == name)
+            {
+                temp = item;
+                break;
+            }
+        }
+        Debug.Log("数据已下载完毕，可以执行其他操作" + temp.IntroTextCH);
+        Text text = exhibitsIntro_.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>();
+        text.text = temp.IntroTextCH;
     }
 }

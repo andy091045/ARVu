@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using System.Text;
 
 [Serializable]
 public class FileList
@@ -122,7 +123,7 @@ public class LoadExhibitDataManager : MonoBehaviour
             if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
             {
                 string fileUrl = task.Result.ToString();
-                StartCoroutine(DownloadAndParseIntroTextFile(fileUrl, temp.IntroTextCH));
+                StartCoroutine(DownloadAndParseIntroTextFile(fileUrl, temp));
             }
             else
             {
@@ -131,19 +132,21 @@ public class LoadExhibitDataManager : MonoBehaviour
         });
 
         // 下载展品導覽英文文字說明
-        fileRef_ = FirebaseStorage.DefaultInstance.RootReference.Child("ExhibitData/" + name + "/" + name + "_EN.txt");
-        fileRef_.GetDownloadUrlAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
-            {
-                string fileUrl = task.Result.ToString();
-                StartCoroutine(DownloadAndParseIntroTextFile(fileUrl, temp.IntroTextEN));
-            }
-            else
-            {
-                Debug.LogError("Failed to get download URL for audio file.");
-            }
-        });
+        //fileRef_ = FirebaseStorage.DefaultInstance.RootReference.Child("ExhibitData/" + name + "/" + name + "_EN.txt");
+        //fileRef_.GetDownloadUrlAsync().ContinueWithOnMainThread(task =>
+        //{
+        //    if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
+        //    {
+        //        string fileUrl = task.Result.ToString();
+        //        StringBuilder content = new StringBuilder();
+        //        StartCoroutine(DownloadAndParseIntroTextFile(fileUrl, content));
+        //        temp.IntroTextEN = content.ToString();
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("Failed to get download URL for audio file.");
+        //    }
+        //});
         temp.IsDownload = true;
     }
 
@@ -239,7 +242,7 @@ public class LoadExhibitDataManager : MonoBehaviour
         }
     }
 
-    IEnumerator DownloadAndParseIntroTextFile(string textUrl, string content)
+    IEnumerator DownloadAndParseIntroTextFile(string textUrl, ExhibitData newData)
     {
         using (UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get(textUrl))
         {
@@ -247,9 +250,9 @@ public class LoadExhibitDataManager : MonoBehaviour
 
             if (!www.isNetworkError && !www.isHttpError)
             {
-                string textContent = www.downloadHandler.text;          
-                content = textContent;
-                Debug.LogWarning("導覽內容: " + content);
+                string textContent = www.downloadHandler.text;
+                newData.IntroTextCH = textContent;
+                Debug.LogWarning("導覽內容: " + newData.IntroTextCH);
             }
             else
             {
