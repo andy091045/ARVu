@@ -21,6 +21,10 @@ public class GameEvent : MonoBehaviour
     public delegate void OccurDownloadExhibitByName(string name);
     public static OccurDownloadExhibitByName OnDownloadExhibitByName;
 
+    //更新語音導覽的資料
+    public delegate void OccurUpdateIntroVoice(string name);
+    public static OccurUpdateIntroVoice OnUpdateIntroVoice;
+
     public void TransferGetTargetEventMessage(string name)
     {
         Debug.Log("圖片:" + name + "開啟");

@@ -94,5 +94,8 @@ public class UIManager : MonoBehaviour
         Debug.Log("数据已下载完毕，可以执行其他操作" + temp.IntroTextCH);
         Text text = exhibitsIntro_.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>();
         text.text = temp.IntroTextCH;
+
+        //呼叫修改導覽語音事件
+        GameEvent.OnUpdateIntroVoice.Invoke(name);
     }
 }

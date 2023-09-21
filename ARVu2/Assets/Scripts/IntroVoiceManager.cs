@@ -6,9 +6,11 @@ using UnityEngine.AddressableAssets;
 public class IntroVoiceManager : MonoBehaviour
 {
     AudioSource audioSource_;
+    DataManager dataManager_;
 
     private void Awake()
     {
+        dataManager_ = GameContainer.Get<DataManager>();
         audioSource_ = transform.GetComponent<AudioSource>();
         GameEvent.OnIntroVoiceStartOrClose += SetSE;
     }
@@ -17,8 +19,17 @@ public class IntroVoiceManager : MonoBehaviour
     {
         if(isOpen)
         {
-            Debug.Log("¸ü¤J»y­µ");
-            AudioClip clip = await Addressables.LoadAssetAsync<AudioClip>("Assets/Music/IntroVoiceDemo.wav").Task;
+            ExhibitData temp = new();
+            foreach (var item in dataManager_.AllExhibitData)
+            {
+                if (item.ExhibitName == name)
+                {
+                    temp = item;
+                    break;
+                }
+            }
+            
+            AudioClip clip = temp.IntroVoice;
             audioSource_.clip = clip;
             audioSource_.Play();
         }
