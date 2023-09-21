@@ -38,4 +38,9 @@ public class IntroVoiceManager : MonoBehaviour
             audioSource_.Stop();
         }    
     }
+
+    private void OnDestroy()
+    {
+        GameEvent.OnIntroVoiceStartOrClose -= SetSE;
+    }
 }
